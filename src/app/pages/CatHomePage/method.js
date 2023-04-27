@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Api from './Api';
+import Api from '../../utilities/Api';
 
 const Method = () => {
 
