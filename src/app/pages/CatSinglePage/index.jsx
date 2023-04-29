@@ -5,27 +5,29 @@ import { CardContainer, H4, H5, H6 } from './style';
 import Method from './method';
 
 const CatSinglePage = () => {
-  const { redirectHome } = Method();
+  const { redirectHome, details } = Method();
+  const { url, breeds } = details;
+
   return (
     <Container>
       <Row className="justify-content-md-center">
-        <CardContainer>
+        { breeds ? <CardContainer>
           <Card.Header>
                 <Button variant="primary" onClick={redirectHome}>Back</Button>
             </Card.Header>
-            <Card.Img variant="top" src="https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg" />
+            <Card.Img variant="top" src={url} />
             <Card.Body>
 
-              <H4>Abyssinian</H4>
-              <H5>Origin: Egypt</H5>
-              <H6>Affectionate, Social, Intelligent, Playful, Active</H6>
+              <H4>{breeds[0].name}</H4>
+              <H5>Origin: {breeds[0].origin}</H5>
+              <H6>{breeds[0].temperament}</H6>
               
               <Card.Text>
-                The Abyssinian is easy to care for, and a joy to have in your home. 
-                They’re affectionate cats and love both people and other animals.
+                {breeds[0].description}
               </Card.Text>
             </Card.Body>
-        </CardContainer>
+        </CardContainer> : <></>
+        }
       </Row>
     </Container>
   );

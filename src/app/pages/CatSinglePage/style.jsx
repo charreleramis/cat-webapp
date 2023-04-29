@@ -6,7 +6,7 @@ export const LoadButton = styled(Button)`
 `;
 
 export const CardContainer = styled(Card)`
-
+    width: 80%;
     margin-top:20px;
 `;
 

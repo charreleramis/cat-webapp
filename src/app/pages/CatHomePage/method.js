@@ -37,7 +37,7 @@ const Method = () => {
 
     const searchCat = async() => {
         try{
-            const result = await Api.get(`v1/images/search?page=1&limit=12&breed_id=${selectedBreed}`);
+            const result = await Api.get(`v1/images/search?page=1&limit=10&breed_id=${selectedBreed}`);
             const data = result.data;
             let chunks = [];
             
