@@ -1,3 +1,3 @@
 export default {
-    breeds: ['sample', 'myCat']
+    breeds: []
 }

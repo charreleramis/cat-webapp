@@ -1,9 +1,9 @@
-const breedReducer = (state, { type, payload }) => {
+const catReducer = (state, { type, payload }) => {
     switch (type) {
-      case 'breeds': {
+      case 'getCats': {
         return {
             ...state,
-            breeds: payload.breeds
+            cats: payload.cats
         }
       }
       default: {
@@ -12,6 +12,6 @@ const breedReducer = (state, { type, payload }) => {
     }
   }
 
-export default breedReducer;
+export default catReducer;
 
   

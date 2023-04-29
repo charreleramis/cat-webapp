@@ -1,46 +1,67 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CatContext } from '../../contexts/Provider';
 import Api from '../../utilities/Api';
 
 
 const Method = () => {
     const navigate = useNavigate();
-    const [breeds, setBreed] = useState([]);
+    const [selectedBreed, setSelectedBreed] = useState('');
+    const { breedState, breedDispatch, catState, catDispatch } = useContext(CatContext);
+
+    const { breeds } = breedState;
+    const { cats } = catState;
 
     useEffect(() => {
         getBreeds();
     },[]);
 
+    useEffect(() => {
+        if(selectedBreed) {
+            searchCat();
+        }
+    },[selectedBreed]);
+
 
     const getBreeds = async () => {
         try{
-            const result = await Api.get('v1/breeds?limit=100&page=0');
-            setBreed(result.data)
-            return result.data;
+            const result = await Api.get('v1/breeds');
+            breedDispatch({ type: 'breeds', payload: { breeds: result.data } });
+            return
         } catch(error){
             console.error('Error: ', error);
             return false
         }
     }
 
-    // const searchCatImage = async(breedId ) => {
-    //     try{
-    //         const result = await Api.get('https://api.thecatapi.com/v1/images/search?page=1&limit=10&breed_id=abys');
-    //         setBreed(result.data)
-    //         return result.data;
-    //     } catch(error){
-    //         console.error('Error: ', error);
-    //         return false
-    //     }
-    // }
 
-    const redirectCatDetails = () => {
-        console.log('redirectCatDetails');
-        navigate('/1290lsl');
+    const searchCat = async() => {
+        try{
+            const result = await Api.get(`v1/images/search?page=1&limit=12&breed_id=${selectedBreed}`);
+            const data = result.data;
+            let chunks = [];
+            
+            for (let index = 0; index < data.length; index+=4) {
+                chunks.push(data.slice(index, index + 4));
+            }
+
+            catDispatch({ type: 'getCats', payload: { cats: chunks } });
+            return 
+        } catch(error){
+            console.error('Error: ', error);
+            return false
+        }
+    }
+
+    const redirectCatDetails = (catId) => {
+        navigate(`/${catId}`);
     }
     return {
         redirectCatDetails,
-        breeds
+        setSelectedBreed,
+        breeds,
+        selectedBreed,
+        cats
     }
 }
 
