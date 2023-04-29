@@ -10,12 +10,12 @@ const Method = () => {
 
     const { id } = useParams();
 
-
     useEffect(() => {
         catDetails();
     },[]);
 
     const redirectHome = () => {
+        catDetailDispatch({ type: 'resetDetails'});
         navigate('/');
     }
 
@@ -29,8 +29,6 @@ const Method = () => {
             return false
         }
     }
-
-
 
     return {
         redirectHome,

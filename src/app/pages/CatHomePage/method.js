@@ -18,7 +18,11 @@ const Method = () => {
 
     useEffect(() => {
         if(selectedBreed) {
-            searchCat();
+            if(selectedBreed == "Select breed") { 
+                catDispatch({ type: 'resetCats'});
+            } else {
+                searchCat();
+            }
         }
     },[selectedBreed]);
 

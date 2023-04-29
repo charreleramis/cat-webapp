@@ -1,3 +1,5 @@
+import catInitiailStates from "../states/catInitiailStates";
+
 const catReducer = (state, { type, payload }) => {
     switch (type) {
       case 'getCats': {
@@ -5,6 +7,10 @@ const catReducer = (state, { type, payload }) => {
             ...state,
             cats: payload.cats
         }
+      }
+
+      case 'resetCats': {
+        return catInitiailStates
       }
       default: {
         throw Error('Unknown action: ' + type);

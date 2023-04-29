@@ -57,17 +57,7 @@ const CatHomePage = () => {
         </CatItemContainer>
 
 
-        {/* <Row>
-              <Col sm={3}>
-                <Card className='mb-3'>
-                  <Card.Img variant="top" src="https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg" />
-                  <Card.Body>
-                    <Button variant="primary" onClick={redirectCatDetails}>View Details</Button>
-                  </Card.Body>
-                </Card>
-              </Col>      
-            </Row> */}
-
+    
           {
             !selectedBreed || selectedBreed == "Select breed"
             ? <h5> No cats available</h5> : 

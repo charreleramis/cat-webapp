@@ -1,3 +1,4 @@
+import catDetailsInitialStates from "../states/catDetailsInitialStates";
 const catDetailReducer = (state, { type, payload }) => {
     switch (type) {
       case 'details': {
@@ -6,6 +7,10 @@ const catDetailReducer = (state, { type, payload }) => {
             details: payload.details
         }
       }
+      case 'resetDetails': {
+        return catDetailsInitialStates
+      }
+
       default: {
         throw Error('Unknown action: ' + type);
       }
