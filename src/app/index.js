@@ -16,17 +16,11 @@ const App = () => {
         element: <CatHomePage/>,
       },
       {
-        path: "/catType",
+        path: "/:id",
         element: <CatSinglePage/>,
       },
     ]);
-  
-    return ReactDOM.createRoot(document.getElementById("root")).render(
-      <React.StrictMode>
-        <RouterProvider router={router} />
-      </React.StrictMode>
-    );
+    return (<RouterProvider router={router} />);
   }
 
-  
 export default App;
