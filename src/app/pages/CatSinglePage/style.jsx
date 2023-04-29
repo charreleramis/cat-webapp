@@ -6,11 +6,8 @@ export const LoadButton = styled(Button)`
 `;
 
 export const CardContainer = styled(Card)`
-    width: 80%;
     margin-top:20px;
 `;
-
-
 
 export const H4 = styled.h4`
   font-size: 1.5rem;
