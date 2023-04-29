@@ -1,26 +1,16 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import CatHomePage from "./pages/CatHomePage";
-import CatSinglePage from "./pages/CatSinglePage";
-
+import GlobalProvider from "./contexts/Provider";
+import Routes from "./pages/routes";
 
 const App = () => {
-    const router = createBrowserRouter([
-      {
-        path: "/",
-        element: <CatHomePage/>,
-      },
-      {
-        path: "/:id",
-        element: <CatSinglePage/>,
-      },
-    ]);
-    return (<RouterProvider router={router} />);
+    const router = createBrowserRouter(Routes());
+    return (
+      <GlobalProvider>
+        <RouterProvider router={router} />
+      </GlobalProvider>
+    );
   }
 
 export default App;

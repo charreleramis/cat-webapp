@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { Button, Card, Row } from 'react-bootstrap';
-import { LoadButton, CardContainer } from './style';
+import { CardContainer, H4, H5, H6 } from './style';
 import Method from './method';
 
 const CatSinglePage = () => {
@@ -15,13 +15,14 @@ const CatSinglePage = () => {
             </Card.Header>
             <Card.Img variant="top" src="https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg" />
             <Card.Body>
-              <Card.Title>Special title treatment</Card.Title>
-              <Card.Title>Origin: Greece</Card.Title>
-              <Card.Title>Affectionate, Social, Intelligent, Playful, Active</Card.Title>
+
+              <H4>Abyssinian</H4>
+              <H5>Origin: Egypt</H5>
+              <H6>Affectionate, Social, Intelligent, Playful, Active</H6>
               
               <Card.Text>
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
+                The Abyssinian is easy to care for, and a joy to have in your home. 
+                They’re affectionate cats and love both people and other animals.
               </Card.Text>
             </Card.Body>
         </CardContainer>

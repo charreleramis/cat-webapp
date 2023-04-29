@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getAPIBaseUrl = "http://127.0.0.1:5000/"
+const getAPIBaseUrl = "https://api.thecatapi.com/"
 
 // Axios Instance
 const Api = axios.create({
@@ -13,6 +13,7 @@ const Api = axios.create({
 
 Api.interceptors.request.use(
   async (config) => {
+    config.headers['x-api-key'] = "live_3jGoZWgYT5QY7s9PMBJJhHo7rkzoGVTHVwMMJ20BPN1F3Dm6EA0AMqROZhTmJcOs"; 
     return config;
   },
   (error) => {

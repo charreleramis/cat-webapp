@@ -9,34 +9,29 @@ import { HeadingText, LoadButton, CatItemContainer } from './style';
 import Method from '../CatHomePage/method';
 
 const CatHomePage = () => {
-  const { redirectCatDetails } = Method();
+  const { redirectCatDetails, breeds } = Method();
     return (
       <Container>
+        <HeadingText>Cat Browser</HeadingText>
         <Row>
-          <Col>
-           
-           <HeadingText>Cat Browser</HeadingText>
-
-           <Form.Group controlId="formBasicSelect">
+          <Col sm={3}>
+          <Form.Group controlId="formBasicSelect">
             <Form.Label>Breed</Form.Label>
-            <Form.Control
-              as="select"
-              // value={type}
-              // onChange={e => {
-              //   console.log("e.target.value", e.target.value);
-              //   setType(e.target.value);
-              // }}
-              >
-              <option value="DICTUM">Select breed</option>
-              <option value="CONSTANCY">Constancia</option>
-              <option value="COMPLEMENT">Complemento</option>
-          </Form.Control>
-        </Form.Group>
+            <Form.Select aria-label="Default select example">
+              <option>Select breed</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
 
+           
           <CatItemContainer>
             <Row>
-              <Col>
-                <Card className='mb-3' style={{ width: '18rem' }}>
+              <Col sm={3}>
+                <Card className='mb-3'>
                   <Card.Img variant="top" src="https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg" />
                   <Card.Body>
                     <Button variant="primary" onClick={redirectCatDetails}>View Details</Button>
@@ -44,7 +39,7 @@ const CatHomePage = () => {
                 </Card>
               </Col>
               <Col>
-                <Card className='mb-3' style={{ width: '18rem' }}>
+                <Card className='mb-3'>
                   <Card.Img variant="top" src="https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg" />
                   <Card.Body>
                     <Button variant="primary">View Details</Button>
@@ -52,8 +47,8 @@ const CatHomePage = () => {
                 </Card>
               </Col>
 
-              <Col>
-                <Card className='mb-3' style={{ width: '18rem' }}>
+              <Col sm={3}>
+                <Card className='mb-3'>
                   <Card.Img variant="top" src="https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg" />
                   <Card.Body>
                     <Button variant="primary">View Details</Button>
@@ -61,8 +56,8 @@ const CatHomePage = () => {
                 </Card>
               </Col>
 
-              <Col>
-                <Card className='mb-3' style={{ width: '18rem' }}>
+              <Col sm={3}>
+                <Card className='mb-3'>
                   <Card.Img variant="top" src="https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg" />
                   <Card.Body>
                     <Button variant="primary">View Details</Button>
@@ -73,8 +68,7 @@ const CatHomePage = () => {
           </CatItemContainer>
 
           <LoadButton variant="success">Load more</LoadButton>
-          </Col>
-        </Row>
+    
       </Container>
   );
 }
