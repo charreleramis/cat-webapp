@@ -6,11 +6,11 @@ import Api from '../../utilities/Api';
 
 const Method = () => {
     const navigate = useNavigate();
-    const [selectedBreed, setSelectedBreed] = useState('');
     const { breedState, breedDispatch, catState, catDispatch } = useContext(CatContext);
-
     const { breeds } = breedState;
-    const { cats } = catState;
+    const { cats, catName } = catState;
+
+    const [selectedBreed, setSelectedBreed] = useState(catName);
 
     useEffect(() => {
         getBreeds();
@@ -21,6 +21,7 @@ const Method = () => {
             if(selectedBreed == "Select breed") { 
                 catDispatch({ type: 'resetCats'});
             } else {
+                catDispatch({ type: 'setCatName', payload: { catName: selectedBreed }});
                 searchCat();
             }
         }
@@ -65,7 +66,8 @@ const Method = () => {
         setSelectedBreed,
         breeds,
         selectedBreed,
-        cats
+        cats,
+        catName
     }
 }
 

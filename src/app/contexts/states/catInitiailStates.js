@@ -1,4 +1,5 @@
 export default {
     cats: [],
-    catId: ""
+    catId: "",
+    catName: "Select breed",
 }

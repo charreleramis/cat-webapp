@@ -8,7 +8,7 @@ import Method from '../CatHomePage/method';
 
 
 const CatHomePage = () => {
-  const { breeds, selectedBreed, cats, setSelectedBreed, redirectCatDetails } = Method();
+  const { breeds, selectedBreed, cats, catName, setSelectedBreed, redirectCatDetails } = Method();
 
   const handleChangeBreed = (e) => {
     setSelectedBreed(e.target.value);
