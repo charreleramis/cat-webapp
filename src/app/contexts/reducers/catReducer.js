@@ -8,10 +8,23 @@ const catReducer = (state, { type, payload }) => {
             cats: payload.cats
         }
       }
+      case 'updateCatList': {
+        return {
+            ...state,
+            cats: [...state.cats, ...payload.cats]
+        }
+      }
       case 'setCatName': {
         return {
           ...state,
           catName: payload.catName
+        }
+      }
+      case 'setPage': {
+        
+        return {
+          ...state,
+          page: payload.newpage
         }
       }
       case 'resetCats': {

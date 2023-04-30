@@ -8,19 +8,28 @@ import Method from '../CatHomePage/method';
 
 
 const CatHomePage = () => {
-  const { breeds, selectedBreed, cats, catName, setSelectedBreed, redirectCatDetails } = Method();
+  const { 
+    breeds, 
+    selectedBreed, 
+    cats,
+    redirectCatDetails, 
+    handleLoadMore, 
+    handleChangeBreed,
+    isDisabled,
+    isDisableBreedInput,
+    randomkey
+  } = Method();
 
-  const handleChangeBreed = (e) => {
-    setSelectedBreed(e.target.value);
-  }
 
+  // console.log('-- cats:', cats);
+  // console.log('-- length:', cats.length);
 
   return (
       <Container>
         <HeadingText>Cat Browser</HeadingText>
         <Row>
           <Col sm={3}>
-          <Form.Group controlId="formBasicSelect">
+          <Form.Group controlId="formBasicSelect" disabled={isDisableBreedInput()}>
             <Form.Label>Breed</Form.Label>
             <Form.Select aria-label="Default select example" value={selectedBreed} onChange={handleChangeBreed}>
               <option>Select breed</option>
@@ -39,7 +48,7 @@ const CatHomePage = () => {
                   <Row key={index}>
                     { item.map((cat) => {
                         return (
-                        <Col sm={3} key={cat.id}>
+                        <Col sm={3} key={randomkey()}>
                           <Card className='mb-3'>
                             <Card.Img variant="top" src={cat.url} />
                             <Card.Body>
@@ -56,15 +65,10 @@ const CatHomePage = () => {
             }
         </CatItemContainer>
 
-
-    
-          {
-            !selectedBreed || selectedBreed == "Select breed"
-            ? <h5> No cats available</h5> : 
-            <></>
-          }
-
-          <LoadButton variant="success">Load more</LoadButton>
+          { isDisabled() ? <h5> No cats available</h5> : <></> }
+          <LoadButton variant="success" onClick={handleLoadMore} disabled={isDisabled()}>
+              Load more
+          </LoadButton>
     
       </Container>
   );
