@@ -1,5 +1,5 @@
 # Cat Browser Web App
-An app that integrate chat api https://api.thecatapi.com/
+An app that integrate cat api https://api.thecatapi.com/
 
 
 ### Install dependencies `yarn install`
