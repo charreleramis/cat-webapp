@@ -22,12 +22,12 @@ const Method = () => {
     useEffect(() => {
         if(selectedBreed) {
             catDispatch({ type: 'setCatName', payload: { catName: selectedBreed }});
+            if(selectedBreed != catName) {
+                catDispatch({ type: 'SetDisableLoadButton', payload: { isDisableLoadButton : false }});
+            }
         } else {
             catDispatch({ type: 'resetCats'});
         }
-
-
-        console.log("SELECTED:", selectedBreed);
     },[selectedBreed]);
 
 
@@ -76,7 +76,10 @@ const Method = () => {
         try{
             const data = await searchImageAndRemoveDuplicate(page, selectedBreed);
             if(!data.length) {
-                console.log('NEED TO DISABLE name:', catName);
+                // console.log('NEED TO DISABLE name:', catName);
+                
+                setError("Apologies but we could not load new cats for you this time! Miau!");
+
                 catDispatch({ type: 'SetDisableLoadButton', payload: { isDisableLoadButton : true }});
             }
 
@@ -92,9 +95,11 @@ const Method = () => {
 
                 const chunkLastItemIndex = cats.length - 1;
                 const itemPerRow = 4;
+
+                // Identify the remaining slots of the incomplete array from the last item
                 const remItemLength = itemPerRow - cats[chunkLastItemIndex].length
                 
-                // the last inde .... 
+                // Manipulate the chunks, to fill up the incomplete array
                 if(remItemLength) {
                     let updatedCatList = [...cats.splice(chunkLastItemIndex)[0], ...data];
                     let chunks = [];
@@ -115,8 +120,9 @@ const Method = () => {
     }
 
     const handleLoadMore = () => {
-        catDispatch({ type: 'setPage', payload: { newpage:  page + 1 }});
-        searchCat(page + 1, catName);
+        const encrement_page = page + 1
+        catDispatch({ type: 'setPage', payload: { encrement_page }});
+        searchCat(encrement_page, catName);
     }
 
     const handleChangeBreed = async (e) => {
@@ -127,12 +133,6 @@ const Method = () => {
       }
     
     const isDisabled = () => {
-        // if(!selectedBreed || selectedBreed == "Select breed") {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-
         if(selectedBreed) {
            return false; 
         } else {

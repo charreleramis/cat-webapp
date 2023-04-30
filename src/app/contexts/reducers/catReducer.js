@@ -23,7 +23,7 @@ const catReducer = (state, { type, payload }) => {
       case 'setPage': {
         return {
           ...state,
-          page: payload.newpage
+          page: payload.encrement_page
         }
       }
       case 'SetDisableLoadButton': {
