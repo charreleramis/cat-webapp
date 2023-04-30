@@ -38,6 +38,12 @@ const catReducer = (state, { type, payload }) => {
           loadedImages: [...state.loadedImages, ...[payload.catUrl]]
         }
       }
+      case 'ResetLoadedImages': {
+        return {
+          ...state,
+          loadedImages: []
+        }
+      }
       case 'resetCats': {
         return catInitiailStates
       }

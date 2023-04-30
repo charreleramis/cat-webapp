@@ -23,6 +23,9 @@ const Method = () => {
         if(selectedBreed) {
             catDispatch({ type: 'setCatName', payload: { catName: selectedBreed }});
             if(selectedBreed != catName) {
+                if(loadedImages.length) {
+                    catDispatch({ type: 'ResetLoadedImages'});
+                }
                 catDispatch({ type: 'SetDisableLoadButton', payload: { isDisableLoadButton : false }});
             }
         } else {
@@ -54,6 +57,9 @@ const Method = () => {
         try {
             const result = await Api.get(`v1/images/search?page=${page}&limit=10&breed_id=${selectedBreed}`);
             const data = result.data;
+
+            console.log('data:', data);
+            console.log('loadedImages:', loadedImages);
             
             let uniqueCats = [] 
 
