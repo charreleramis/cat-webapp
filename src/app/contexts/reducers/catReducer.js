@@ -26,6 +26,18 @@ const catReducer = (state, { type, payload }) => {
           page: payload.newpage
         }
       }
+      case 'SetDisableLoadButton': {
+        return {
+          ...state,
+          isDisableLoadButton: payload.isDisableLoadButton
+        }
+      }
+      case 'SetLoadedImages': {
+        return {
+          ...state,
+          loadedImages: [...state.loadedImages, ...[payload.catUrl]]
+        }
+      }
       case 'resetCats': {
         return catInitiailStates
       }

@@ -8,38 +8,27 @@ const Method = () => {
     const navigate = useNavigate();
     const { breedState, breedDispatch, catState, catDispatch } = useContext(CatContext);
     const { breeds } = breedState;
-    const { cats, catName, page } = catState;
+    const { cats, catName, page, isDisableLoadButton, loadedImages } = catState;
 
     const [selectedBreed, setSelectedBreed] = useState(catName);
-    const [catUrl, setUrl] = useState([]);
-    const [isDisableLoadButton, setDisableLoadButton ] = useState(false);
+    const [error, setError] = useState(null);
 
-    
+
     useEffect(() => {
         getBreeds();
     },[]);
 
-    console.log(`PAGE ${page}`);
 
     useEffect(() => {
         if(selectedBreed) {
-            if(selectedBreed == "Select breed") { 
-                catDispatch({ type: 'resetCats'});
-                setUrl([]);
-            } else {
-                catDispatch({ type: 'setCatName', payload: { catName: selectedBreed }});
-                searchCat();
-            }
-
-            if(isDisableLoadButton) {
-                setDisableLoadButton(false);
-                setUrl([]);
-                catDispatch({ type: 'resetCats'});
-            }
+            catDispatch({ type: 'setCatName', payload: { catName: selectedBreed }});
+        } else {
+            catDispatch({ type: 'resetCats'});
         }
-        
-    },[selectedBreed, page]);
 
+
+        console.log("SELECTED:", selectedBreed);
+    },[selectedBreed]);
 
 
     const getBreeds = async () => {
@@ -48,7 +37,7 @@ const Method = () => {
             breedDispatch({ type: 'breeds', payload: { breeds: result.data } });
             return
         } catch(error){
-            console.error('Error: ', error);
+            setError("Cat Breed is temporary unavailable");
             return false
         }
     }
@@ -61,34 +50,37 @@ const Method = () => {
         }
     }
 
-    const searchImageAndRemoveDuplicate = async () => {
+    const searchImageAndRemoveDuplicate = async (page, selectedBreed) => {
         try {
             const result = await Api.get(`v1/images/search?page=${page}&limit=10&breed_id=${selectedBreed}`);
             const data = result.data;
+            
             let uniqueCats = [] 
+
+            // check if the image is already loaded
             for (let index = 0; index < data.length; index++) {
                 const cat = data[index];
-                if(!catUrl.includes(cat.url)) {
-                    setUrl((prev) => {
-                        return [...prev, cat.url]
-                    })
+                if(!loadedImages.includes(cat.url)) {
+                    catDispatch({ type: 'SetLoadedImages', payload: { catUrl: cat.url }})
                     uniqueCats.push(cat);
                 }
             }
             return uniqueCats;
         } catch (error) {
-            console.log('searchImageAndRemoveDuplicate error:', error);
+            setError("Apologies but we could not load new cats for you this time! Miau!");
         }
     }
 
 
-    const searchCat = async() => {
+    const searchCat = async(page, selectedBreed) => {
         try{
-            const data = await searchImageAndRemoveDuplicate();
+            const data = await searchImageAndRemoveDuplicate(page, selectedBreed);
             if(!data.length) {
-                setDisableLoadButton(true);
+                console.log('NEED TO DISABLE name:', catName);
+                catDispatch({ type: 'SetDisableLoadButton', payload: { isDisableLoadButton : true }});
             }
 
+            // chunk the data by 4, since each row contains 4 columns
             let chunks = [];
             for (let index = 0; index < data.length; index+=4) {
                 chunks.push(data.slice(index, index + 4));
@@ -97,10 +89,12 @@ const Method = () => {
             if(page <= 1) {
                 catDispatch({ type: 'getCats', payload: { cats: chunks } });
             } else {
+
                 const chunkLastItemIndex = cats.length - 1;
                 const itemPerRow = 4;
                 const remItemLength = itemPerRow - cats[chunkLastItemIndex].length
-
+                
+                // the last inde .... 
                 if(remItemLength) {
                     let updatedCatList = [...cats.splice(chunkLastItemIndex)[0], ...data];
                     let chunks = [];
@@ -122,24 +116,34 @@ const Method = () => {
 
     const handleLoadMore = () => {
         catDispatch({ type: 'setPage', payload: { newpage:  page + 1 }});
+        searchCat(page + 1, catName);
     }
 
-    const handleChangeBreed = (e) => {
+    const handleChangeBreed = async (e) => {
         setSelectedBreed(e.target.value);
+        if(e.target.value) {
+            searchCat(1, e.target.value);
+        }
       }
     
     const isDisabled = () => {
-        if(!selectedBreed || selectedBreed == "Select breed") {
-            return true;
+        // if(!selectedBreed || selectedBreed == "Select breed") {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+
+        if(selectedBreed) {
+           return false; 
         } else {
-            return false;
+            return true
         }
     }
 
     const randomkey = () => {
-        const length = 8; // length of the random string
+        const length = 8;
         let result = "";
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // characters to use in the random string
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (let i = 0; i < length; i++) {
           result += characters.charAt(Math.floor(Math.random() * characters.length));
         }
@@ -157,6 +161,7 @@ const Method = () => {
         isDisabled,
         isDisableBreedInput,
         randomkey,
+        error,
         breeds,
         selectedBreed,
         cats,

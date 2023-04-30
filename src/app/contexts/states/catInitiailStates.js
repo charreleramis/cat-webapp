@@ -1,6 +1,8 @@
 export default {
     cats: [],
     catId: "",
-    catName: "Select breed",
-    page: 1
+    catName: "",
+    page: 1,
+    isDisableLoadButton: false,
+    loadedImages: []
 }

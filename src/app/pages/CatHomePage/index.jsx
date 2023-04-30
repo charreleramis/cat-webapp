@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button, Form, Card } from 'react-bootstrap';
-import { HeadingText, LoadButton, CatItemContainer } from './style';
+import { HeadingText, LoadButton, CatItemContainer, ErrorNotification } from './style';
 import Method from '../CatHomePage/method';
 
 
@@ -13,6 +13,7 @@ const CatHomePage = () => {
     selectedBreed, 
     cats,
     isDisableLoadButton,
+    error,
     redirectCatDetails, 
     handleLoadMore, 
     handleChangeBreed,
@@ -29,15 +30,26 @@ const CatHomePage = () => {
           <Col sm={3}>
           <Form.Group controlId="formBasicSelect" disabled={isDisableBreedInput()}>
             <Form.Label>Breed</Form.Label>
-            <Form.Select aria-label="Default select example" value={selectedBreed} onChange={handleChangeBreed}>
-              <option>Select breed</option>
-              { breeds.map((item) => {
-                return <option key={item.id} value={item.id}>{item.name}</option>;
-              })}
+            <Form.Select aria-label="Default select example" 
+              value={selectedBreed} 
+              onChange={handleChangeBreed} 
+              disabled={breeds.length ? false : true}>
+
+                <option value={""}>Select breed</option>
+                { breeds.map((item) => {
+                  return <option key={item.id} value={item.id}>{item.name}</option>;
+                })}
+
             </Form.Select>
             </Form.Group>
           </Col>
         </Row>
+
+        { error ? 
+          <ErrorNotification variant="danger" dismissible>
+            <p>{error}</p>
+          </ErrorNotification> : <></>
+        }
 
         <CatItemContainer>
             {
