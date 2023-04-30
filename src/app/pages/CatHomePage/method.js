@@ -11,24 +11,36 @@ const Method = () => {
     const { cats, catName, page } = catState;
 
     const [selectedBreed, setSelectedBreed] = useState(catName);
+    const [catUrl, setUrl] = useState([]);
+    const [isDisableLoadButton, setDisableLoadButton ] = useState(false);
 
-    console.log(`CURRENT PAGE: ${page}`);
     
     useEffect(() => {
         getBreeds();
     },[]);
 
+    console.log(`PAGE ${page}`);
+
     useEffect(() => {
         if(selectedBreed) {
             if(selectedBreed == "Select breed") { 
                 catDispatch({ type: 'resetCats'});
+                setUrl([]);
             } else {
                 catDispatch({ type: 'setCatName', payload: { catName: selectedBreed }});
                 searchCat();
             }
-        }
 
+            if(isDisableLoadButton) {
+                setDisableLoadButton(false);
+                setUrl([]);
+                catDispatch({ type: 'resetCats'});
+            }
+        }
+        
     },[selectedBreed, page]);
+
+
 
     const getBreeds = async () => {
         try{
@@ -49,12 +61,35 @@ const Method = () => {
         }
     }
 
-    const searchCat = async() => {
-        try{
+    const searchImageAndRemoveDuplicate = async () => {
+        try {
             const result = await Api.get(`v1/images/search?page=${page}&limit=10&breed_id=${selectedBreed}`);
             const data = result.data;
+            let uniqueCats = [] 
+            for (let index = 0; index < data.length; index++) {
+                const cat = data[index];
+                if(!catUrl.includes(cat.url)) {
+                    setUrl((prev) => {
+                        return [...prev, cat.url]
+                    })
+                    uniqueCats.push(cat);
+                }
+            }
+            return uniqueCats;
+        } catch (error) {
+            console.log('searchImageAndRemoveDuplicate error:', error);
+        }
+    }
+
+
+    const searchCat = async() => {
+        try{
+            const data = await searchImageAndRemoveDuplicate();
+            if(!data.length) {
+                setDisableLoadButton(true);
+            }
+
             let chunks = [];
-            
             for (let index = 0; index < data.length; index+=4) {
                 chunks.push(data.slice(index, index + 4));
             }
@@ -102,10 +137,13 @@ const Method = () => {
     }
 
     const randomkey = () => {
-        const min = 1;
-        const max = 1000;
-        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min; // generates a random integer between min and max (inclusive)
-        return randomNumber;
+        const length = 8; // length of the random string
+        let result = "";
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // characters to use in the random string
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
     }
 
     const redirectCatDetails = (catId) => {
@@ -122,7 +160,8 @@ const Method = () => {
         breeds,
         selectedBreed,
         cats,
-        catName
+        catName,
+        isDisableLoadButton
     }
 }
 

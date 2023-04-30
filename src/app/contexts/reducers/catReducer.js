@@ -21,7 +21,6 @@ const catReducer = (state, { type, payload }) => {
         }
       }
       case 'setPage': {
-        
         return {
           ...state,
           page: payload.newpage

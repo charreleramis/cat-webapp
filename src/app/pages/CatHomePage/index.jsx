@@ -12,6 +12,7 @@ const CatHomePage = () => {
     breeds, 
     selectedBreed, 
     cats,
+    isDisableLoadButton,
     redirectCatDetails, 
     handleLoadMore, 
     handleChangeBreed,
@@ -20,9 +21,6 @@ const CatHomePage = () => {
     randomkey
   } = Method();
 
-
-  // console.log('-- cats:', cats);
-  // console.log('-- length:', cats.length);
 
   return (
       <Container>
@@ -66,9 +64,13 @@ const CatHomePage = () => {
         </CatItemContainer>
 
           { isDisabled() ? <h5> No cats available</h5> : <></> }
-          <LoadButton variant="success" onClick={handleLoadMore} disabled={isDisabled()}>
+
+          { isDisableLoadButton ? <></> :
+            <LoadButton variant="success" onClick={handleLoadMore}>
               Load more
-          </LoadButton>
+            </LoadButton>
+          }
+          
     
       </Container>
   );
