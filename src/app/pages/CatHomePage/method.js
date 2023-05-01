@@ -85,10 +85,6 @@ const Method = () => {
         try{
             const data = await searchImageAndRemoveDuplicate(page, selectedBreed);
             if(!data.length) {
-                // console.log('NEED TO DISABLE name:', catName);
-                
-                setError("Apologies but we could not load new cats for you this time! Miau!");
-
                 catDispatch({ type: 'SetHideLoadButton', payload: { isHideLoadButton : true }});
             }
 
