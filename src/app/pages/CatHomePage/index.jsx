@@ -12,8 +12,9 @@ const CatHomePage = () => {
     breeds, 
     selectedBreed, 
     cats,
-    isDisableLoadButton,
+    isHideLoadButton,
     error,
+    disableLoadButton,
     redirectCatDetails, 
     handleLoadMore, 
     handleChangeBreed,
@@ -77,8 +78,8 @@ const CatHomePage = () => {
 
           { isDisabled() ? <h5> No cats available</h5> : <></> }
 
-          { isDisableLoadButton ? <></> :
-            <LoadButton variant="success" onClick={handleLoadMore}>
+          { isHideLoadButton ? <></> :
+            <LoadButton variant="success" onClick={handleLoadMore} disabled={disableLoadButton}>
               Load more
             </LoadButton>
           }

@@ -26,10 +26,16 @@ const catReducer = (state, { type, payload }) => {
           page: payload.encrement_page
         }
       }
+      case 'SetHideLoadButton': {
+        return {
+          ...state,
+          isHideLoadButton: payload.isHideLoadButton
+        }
+      }
       case 'SetDisableLoadButton': {
         return {
           ...state,
-          isDisableLoadButton: payload.isDisableLoadButton
+          disableLoadButton: payload.disableLoadButton
         }
       }
       case 'SetLoadedImages': {

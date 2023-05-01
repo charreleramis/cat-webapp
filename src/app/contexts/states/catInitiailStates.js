@@ -3,6 +3,7 @@ export default {
     catId: "",
     catName: "",
     page: 1,
-    isDisableLoadButton: false,
+    isHideLoadButton: false,
+    disableLoadButton: true,
     loadedImages: []
 }

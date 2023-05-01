@@ -8,7 +8,7 @@ const Method = () => {
     const navigate = useNavigate();
     const { breedState, breedDispatch, catState, catDispatch } = useContext(CatContext);
     const { breeds } = breedState;
-    const { cats, catName, page, isDisableLoadButton, loadedImages } = catState;
+    const { cats, catName, page, isHideLoadButton, loadedImages, disableLoadButton } = catState;
 
     const [selectedBreed, setSelectedBreed] = useState(catName);
     const [error, setError] = useState(null);
@@ -26,9 +26,12 @@ const Method = () => {
                 if(loadedImages.length) {
                     catDispatch({ type: 'ResetLoadedImages'});
                 }
-                catDispatch({ type: 'SetDisableLoadButton', payload: { isDisableLoadButton : false }});
+                catDispatch({ type: 'SetHideLoadButton', payload: { isHideLoadButton : false }});
             }
+            catDispatch({ type: 'SetDisableLoadButton', payload: { disableLoadButton : false }});
+
         } else {
+            catDispatch({ type: 'SetDisableLoadButton', payload: { disableLoadButton : true }})
             catDispatch({ type: 'resetCats'});
         }
     },[selectedBreed]);
@@ -86,7 +89,7 @@ const Method = () => {
                 
                 setError("Apologies but we could not load new cats for you this time! Miau!");
 
-                catDispatch({ type: 'SetDisableLoadButton', payload: { isDisableLoadButton : true }});
+                catDispatch({ type: 'SetHideLoadButton', payload: { isHideLoadButton : true }});
             }
 
             // chunk the data by 4, since each row contains 4 columns
@@ -172,7 +175,8 @@ const Method = () => {
         selectedBreed,
         cats,
         catName,
-        isDisableLoadButton
+        isHideLoadButton,
+        disableLoadButton
     }
 }
 
