@@ -43,7 +43,7 @@ const Method = () => {
             breedDispatch({ type: 'breeds', payload: { breeds: result.data } });
             return
         } catch(error){
-            setError("Cat Breed is temporary unavailable");
+            setError("Cat Breed is temporary unavailable! Try to refresh");
             return false
         }
     }
